@@ -7,8 +7,8 @@ public class Main {
     public static void main(String[] args){
 
         int m=10;
-        int l1=2;
-        int l2=3;
+        int l1=3;
+        int l2=2;
 
         try {
             GRBEnv env = new GRBEnv("Exercise2");
@@ -43,13 +43,27 @@ public class Main {
             GRBLinExpr obj = new GRBLinExpr();
             for(int i=0 ; i<m ; i++)
                 obj.addTerm(1.0,b[i]);
-            model.setObjective(obj,GRB.MINIMIZE);
+            model.setObjective(obj,GRB.MAXIMIZE);
 
-            //constraint
+            //constraint 1
+            GRBLinExpr cons = new GRBLinExpr();
             for(int i=0;i<l2 ; i++) {
-                GRBLinExpr cons = new GRBLinExpr();
+                for(int j=0 ; j<m ;j++){
+                    cons.addTerm(1.0,y[i][j]);
+                }
             }
+            model.addConstr(cons,GRB.LESS_EQUAL,l2,"c0");
 
+            //constraint 2
+            GRBLinExpr cons2 = new GRBLinExpr();
+            for(int i=0 ; i<l1 ; i++){
+                for(int j=0 ; j<m ;j++){
+                    cons.addTerm(1.0, x[i][j]);
+                }
+            }
+            model.addConstr(cons2,GRB.LESS_EQUAL,l1,"c1");
+
+            //constraint 3
 
 
         }
